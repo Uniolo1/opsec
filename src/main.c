@@ -46,9 +46,24 @@ int main(void)
 #include <cjson/cJSON.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int main(void)
 {
+	int bad_distro = 0; // I did the soyjack and went "bad apple reference"
+	                    // after writing this - Uniolo1
+
+	if (access("/usr/share/omarchy/version", F_OK) == 0)
+	{
+		puts(RED "CRITICAL OPSEC MISTAKE FOUND" RESET
+		         ": You are using Omarchy!");
+		puts("Alternatives: " CYAN "Fedora Linux, CachyOS" RESET);
+		puts(GRAY "This program will continue..." RESET);
+
+		putchar('\n'); // add space for other mistakes
+		bad_distro = 1;
+	}
+
 	const char *config_path = get_config_path();
 	if (config_path == NULL)
 	{
@@ -67,7 +82,7 @@ int main(void)
 	}
 
 	// this function also abort's on failure:
-	int mistakes = parse_config_and_do_logic_and_stuff(config);
+	int mistakes = parse_config_and_do_logic_and_stuff(config) + bad_distro;
 
 	cJSON_Delete(config);
 
