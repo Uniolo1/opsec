@@ -41,6 +41,15 @@ static inline bool executable_exists(const char *name)
 	return system(cmd) == 0;
 }
 
+static inline bool flatpak_exists(const char *name)
+{
+	char cmd[512];
+	snprintf(cmd, sizeof(cmd), "flatpak info \"%s\" > /dev/null 2>&1",
+	         name);
+
+	return system(cmd) == 0;
+}
+
 int parse_config_and_do_logic_and_stuff(cJSON *config)
 {
 	int mistakes = 0;
@@ -52,6 +61,9 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 		{
 			cJSON *executables = cJSON_GetObjectItemCaseSensitive(
 			    item, "executables");
+			cJSON *flatpak_executables =
+			    cJSON_GetObjectItemCaseSensitive(
+			        item, "flatpak_executables");
 			cJSON *alternatives = cJSON_GetObjectItemCaseSensitive(
 			    item, "alternatives");
 
@@ -75,6 +87,37 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 						abort();
 					}
 				}
+			}
+			else
+			{
+				fprintf(stderr, "Invalid json!\n");
+				abort();
+			}
+
+			if (cJSON_IsArray(flatpak_executables))
+			{
+				cJSON *executable = NULL;
+
+				cJSON_ArrayForEach(executable, executables)
+				{
+					if (cJSON_IsString(executable))
+					{
+						if (flatpak_exists(
+						        executable
+						            ->valuestring))
+							goto executable_found;
+					}
+					else
+					{
+						fprintf(stderr,
+						        "Invalid json!\n");
+						abort();
+					}
+				}
+			}
+			else
+			{
+				// Do nothing here
 			}
 
 			// executable was not found:

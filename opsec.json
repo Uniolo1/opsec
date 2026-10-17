@@ -6,6 +6,9 @@
 			"brave-browser-beta",
 			"brave-browser-nightly"
 		],
+		"flatpak_executables": [
+			"com.brave.Browser"
+		],
 		"alternatives": "LibreWolf"
 	},
 	"browsers/chrome": {
@@ -16,6 +19,9 @@
 			"google-chrome-canary",
 			"chromium",
 			"chromium-browser"
+		],
+		"flatpak_executables": [
+			"org.chromium.Chromium"
 		],
 		"alternatives": "LibreWolf"
 	},
@@ -28,6 +34,9 @@
 			"microsoft-edge-beta",
 			"microsoft-edge-dev"
 		],
+		"flatpak_executables": [
+			"com.microsoft.Edge"
+		],
 		"alternatives": "LibreWolf"
 	},
 	"browsers/vivaldi": {
@@ -37,13 +46,23 @@
 			"vivaldi-stable",
 			"vivaldi-snapshot"
 		],
+		"flatpak_executables": [
+			"com.vivaldi.Vivaldi"
+		],
 		"alternatives": "LibreWolf"
 	},
 	"browsers/opera": {
 		"executables": [
 			"opera-bin",
 			"opera",
-			"opera-stable"
+			"opera-gx",
+			"opera-gx-bin",
+			"opera-stable",
+			"opera-gx-stable"
+		],
+		"flatpak_executables": [
+			"com.opera.Opera",
+			"com.opera.opera-gx"
 		],
 		"alternatives": "LibreWolf"
 	},
@@ -52,6 +71,9 @@
 			"code",
 			"vscode",
 			"code-insiders"
+		],
+		"flatpak_executables": [
+			"com.visualstudio.code"
 		],
 		"alternatives": "VSCodium"
 	},
@@ -62,6 +84,10 @@
 			"discord-canary",
 			"discord-ptb"
 		],
+		"flatpak_executables": [
+			"com.discordapp.Discord",
+			"dev.vencord.Vesktop"
+		],
 		"alternatives": "XMPP, Fluxer"
 	},
 	"social/zoom": {
@@ -69,11 +95,17 @@
 			"zoom",
 			"zoom-client"
 		],
+		"flatpak_executables": [
+			"us.zoom.Zoom"
+		],
 		"alternatives": "Jitsi Meet"
 	},
 	"vpn/surfshark": {
 		"executables": [
 			"surfshark"
+		],
+		"flatpak_executables": [
+			"com.surfshark.Surfshark"
 		],
 		"alternatives": "Mullvad"
 	}
