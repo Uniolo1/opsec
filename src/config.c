@@ -26,6 +26,7 @@
 #ifndef _WIN32
 
 #include "h/config.h"
+#include "h/colors.h"
 #include <cjson/cJSON.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -96,6 +97,83 @@ cJSON *read_config(const char *config_path)
 	}
 
 	return config;
+}
+
+int parse_config(cJSON *config)
+{
+	int mistakes = 0;
+
+	if (cJSON_IsObject(config))
+	{
+		cJSON *item = NULL;
+
+		cJSON_ArrayForEach(item, config)
+		{
+			if (cJSON_IsObject(item))
+			{
+				cJSON *executables =
+				    cJSON_GetObjectItemCaseSensitive(
+				        item, "executables");
+				cJSON *alternatives =
+				    cJSON_GetObjectItemCaseSensitive(
+				        item, "alternatives");
+
+				if (cJSON_IsArray(executables))
+				{
+					cJSON *executable = NULL;
+
+					cJSON_ArrayForEach(executable,
+					                   executables)
+					{
+						if (cJSON_IsString(executable))
+						{
+							// TODO: check if
+							// executable exists
+							goto executable_found;
+						}
+						else
+						{
+							fprintf(
+							    stderr,
+							    "Invalid json!\n");
+							abort();
+						}
+					}
+				}
+
+				// executable was not found:
+				continue;
+
+			executable_found: // executable was found if we jump
+			                  // here
+
+				mistakes++; // increment 'mistakes'
+				printf(RED "OPSEC MISTAKE FOUND" RESET
+				           ": " YELLOW "%s" RESET "\n",
+				       item->string);
+
+				if (cJSON_IsString(alternatives))
+				{
+					printf(GREEN "Alternatives" RESET
+					             ": " MAGENTA "%s" RESET
+					             "\n",
+					       alternatives->valuestring);
+				}
+				else
+				{
+					fprintf(stderr, "Invalid json!\n");
+					abort();
+				}
+			}
+		}
+	}
+	else
+	{
+		fprintf(stderr, "Invalid json!\n");
+		abort();
+	}
+
+	return mistakes;
 }
 
 #endif // ifndef _WIN32

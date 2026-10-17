@@ -40,12 +40,9 @@ int main(void)
 }
 #else
 
-#include "h/colors.h"
 #include "h/config.h"
 #include <cjson/cJSON.h>
-#include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 int main(void)
 {
@@ -59,79 +56,10 @@ int main(void)
 	// NOTE: this function handles errors internally, and abort's on
 	// failure:
 	cJSON *config = read_config(config_path);
-
-	if (cJSON_IsObject(config))
-	{
-		cJSON *item = NULL;
-
-		cJSON_ArrayForEach(item, config)
-		{
-			if (cJSON_IsObject(item))
-			{
-				cJSON *executables =
-				    cJSON_GetObjectItemCaseSensitive(
-				        item, "executables");
-				cJSON *alternatives =
-				    cJSON_GetObjectItemCaseSensitive(
-				        item, "alternatives");
-
-				if (cJSON_IsArray(executables))
-				{
-					cJSON *executable = NULL;
-
-					cJSON_ArrayForEach(executable,
-					                   executables)
-					{
-						if (cJSON_IsString(executable))
-						{
-							// TODO: check if
-							// executable exists
-							goto executable_found;
-						}
-						else
-						{
-							fprintf(
-							    stderr,
-							    "Invalid json!\n");
-							abort();
-						}
-					}
-				}
-
-				// executable was not found:
-				continue;
-
-			executable_found: // executable was found if we jump
-			                  // here
-
-				printf(RED "OPSEC MISTAKE FOUND" RESET
-				           ": " YELLOW "%s" RESET "\n",
-				       item->string);
-
-				if (cJSON_IsString(alternatives))
-				{
-					printf(GREEN "Alternatives" RESET
-					             ": " MAGENTA "%s" RESET
-					             "\n",
-					       alternatives->valuestring);
-				}
-				else
-				{
-					fprintf(stderr, "Invalid json!\n");
-					abort();
-				}
-			}
-		}
-	}
-	else
-	{
-		fprintf(stderr, "Invalid json!\n");
-		abort();
-	}
-
+	int ret = parse_config(config);
 	cJSON_Delete(config);
 
-	return 0;
+	return ret;
 }
 
 #endif // if defined(_WIN32)
