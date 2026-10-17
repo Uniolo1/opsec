@@ -31,6 +31,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 static inline int file_exists(const char *path)
@@ -101,8 +102,11 @@ cJSON *read_config(const char *config_path)
 
 static inline bool executable_exists(const char *name)
 {
-	printf("TODO: Parse \"%s\"\n", name);
-	return false;
+	// might consider changing this to search PATH manually...
+	char cmd[512];
+	snprintf(cmd, sizeof(cmd), "which \"%s\" > /dev/null 2>&1", name);
+
+	return system(cmd) == 0;
 }
 
 int parse_config_and_do_logic_and_stuff(cJSON *config)
