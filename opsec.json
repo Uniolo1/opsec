@@ -23,11 +23,44 @@
 		],
 		"alternatives": "LibreWolf"
 	},
+	"browsers/vivaldi": {
+		"executables": [
+			"vivaldi-bin",
+			"vivaldi"
+		],
+		"alternatives": "LibreWolf"
+	},
+	"browsers/opera": {
+		"executables": [
+			"opera-bin",
+			"opera"
+		],
+		"alternatives": "LibreWolf"
+	},
 	"editors/vscode": {
 		"executables": [
 			"code",
 			"vscode"
 		],
 		"alternatives": "VSCodium"
+	},
+	"social/discord": {
+		"executables": [
+			"vesktop",
+			"discord"
+		],
+		"alternatives": "XMPP, Fluxer"
+	},
+	"social/zoom": {
+		"executables": [
+			"zoom"
+		],
+		"alternatives": "Jitsi Meet"
+	},
+	"vpn/surfshark": {
+		"executables": [
+			"surfshark"
+		],
+		"alternatives": "Mullvad"
 	}
 }
