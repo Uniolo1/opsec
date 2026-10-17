@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: NONE
+# SPDX-License-Identifier: Unlicense
+
+version = 1
+
+[[annotations]]
+path = ["opsec.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "Unlicense"

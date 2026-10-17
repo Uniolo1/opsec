@@ -1,0 +1,11 @@
+{
+	"chrome": {
+		"executables": [
+			"google-chrome",
+			"google-chrome-stable",
+			"chrome",
+			"Chrome"
+		],
+		"alternative": "librewolf"
+	}
+}
