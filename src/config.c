@@ -30,7 +30,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-bool file_exists(const char *path)
+static inline int file_exists(const char *path)
 {
 	return access(path, F_OK) == 0;
 }

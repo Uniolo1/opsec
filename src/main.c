@@ -33,8 +33,7 @@ int main(void)
 {
 	puts(RED "CRITICAL OPSEC MISTAKE FOUND" RESET
 	         ": You are using Windows!");
-	puts("Alternatives: " CYAN
-	     "Fedora Linux, ArchLinux, Alpine Linux" RESET);
+	puts("Alternatives: " CYAN "Fedora Linux, Gentoo, Alpine Linux" RESET);
 	puts(GRAY "This program will now exit..." RESET);
 	return 1;
 }
