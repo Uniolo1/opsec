@@ -42,6 +42,7 @@ int main(void)
 
 #include "h/colors.h"
 #include "h/config.h"
+#include "h/parse.h"
 #include <cjson/cJSON.h>
 #include <stdio.h>
 #include <stdlib.h>

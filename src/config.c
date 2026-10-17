@@ -26,12 +26,9 @@
 #ifndef _WIN32
 
 #include "h/config.h"
-#include "h/colors.h"
 #include <cjson/cJSON.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
 static inline int file_exists(const char *path)
@@ -98,82 +95,6 @@ cJSON *read_config(const char *config_path)
 	}
 
 	return config;
-}
-
-static inline bool executable_exists(const char *name)
-{
-	// might consider changing this to search PATH manually...
-	char cmd[512];
-	snprintf(cmd, sizeof(cmd), "which \"%s\" > /dev/null 2>&1", name);
-
-	return system(cmd) == 0;
-}
-
-int parse_config_and_do_logic_and_stuff(cJSON *config)
-{
-	int mistakes = 0;
-	cJSON *item = NULL;
-
-	cJSON_ArrayForEach(item, config)
-	{
-		if (cJSON_IsObject(item))
-		{
-			cJSON *executables = cJSON_GetObjectItemCaseSensitive(
-			    item, "executables");
-			cJSON *alternatives = cJSON_GetObjectItemCaseSensitive(
-			    item, "alternatives");
-
-			if (cJSON_IsArray(executables))
-			{
-				cJSON *executable = NULL;
-
-				cJSON_ArrayForEach(executable, executables)
-				{
-					if (cJSON_IsString(executable))
-					{
-						if (executable_exists(
-						        executable
-						            ->valuestring))
-							goto executable_found;
-					}
-					else
-					{
-						fprintf(stderr,
-						        "Invalid json!\n");
-						abort();
-					}
-				}
-			}
-
-			// executable was not found:
-			continue;
-
-		executable_found: // executable was found if we jump
-		                  // here
-
-			mistakes++; // increment 'mistakes'
-			printf(RED "OPSEC MISTAKE FOUND" RESET ": " YELLOW
-			           "%s" RESET "\n",
-			       item->string);
-
-			if (cJSON_IsString(alternatives))
-			{
-				printf(GREEN "Alternatives" RESET ": " MAGENTA
-				             "%s" RESET "\n",
-				       alternatives->valuestring);
-			}
-			else
-			{
-				fprintf(stderr, "Invalid json!\n");
-				abort();
-			}
-
-			// add space between mistakes
-			putchar('\n');
-		}
-	}
-
-	return mistakes;
 }
 
 #endif // ifndef _WIN32
