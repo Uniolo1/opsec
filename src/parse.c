@@ -98,7 +98,8 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 			{
 				cJSON *executable = NULL;
 
-				cJSON_ArrayForEach(executable, executables)
+				cJSON_ArrayForEach(executable,
+				                   flatpak_executables)
 				{
 					if (cJSON_IsString(executable))
 					{

@@ -57,11 +57,11 @@ int main(void)
 	{
 		puts(RED "CRITICAL OPSEC MISTAKE FOUND" RESET
 		         ": You are using Omarchy!");
-		puts("Alternatives: " CYAN "Fedora Linux, CachyOS" RESET);
+		puts("Alternatives: " CYAN "CachyOS, Fedora Linux" RESET);
 		puts(GRAY "This program will continue..." RESET);
 
 		putchar('\n'); // add space for other mistakes
-		bad_distro = 1;
+		bad_distro++;
 	}
 
 	char *config_path = NULL;

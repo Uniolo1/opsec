@@ -16,3 +16,11 @@ all:
 debug:
 	mkdir -p out
 	$(CC) -O0 -g $(CFLAGS) -o $(OUT)/opsec $(SRC_DIR)/*.c -fsanitize=address,undefined -fno-omit-frame-pointer
+
+.PHONY: profile
+profile:
+	mkdir -p out
+	$(CC) -O0 -pg -g $(CFLAGS) -o $(OUT)/opsec $(SRC_DIR)/*.c
+	# cd $(OUT)
+	# ./opsec
+	# gprof ./opsec gmon.out | less
