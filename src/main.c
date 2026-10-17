@@ -40,9 +40,11 @@ int main(void)
 }
 #else
 
+#include "h/colors.h"
 #include "h/config.h"
 #include <cjson/cJSON.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -56,10 +58,22 @@ int main(void)
 	// NOTE: this function handles errors internally, and abort's on
 	// failure:
 	cJSON *config = read_config(config_path);
-	int ret = parse_config(config);
+
+	if (!cJSON_IsObject(config))
+	{
+		fprintf(stderr, "Invalid json!\n");
+		abort();
+	}
+
+	// this function also abort's on failure:
+	int mistakes = parse_config_and_do_logic_and_stuff(config);
+
 	cJSON_Delete(config);
 
-	return ret;
+	if (mistakes == 0)
+		puts(GREEN "No OPSEC mistakes detected!" RESET);
+
+	return mistakes;
 }
 
 #endif // if defined(_WIN32)

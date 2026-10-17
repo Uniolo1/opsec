@@ -30,6 +30,6 @@
 
 char *get_config_path(void);
 cJSON *read_config(const char *config_path);
-int parse_config(cJSON *config);
+int parse_config_and_do_logic_and_stuff(cJSON *config);
 
 #endif

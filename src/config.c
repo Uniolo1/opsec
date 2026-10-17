@@ -99,78 +99,74 @@ cJSON *read_config(const char *config_path)
 	return config;
 }
 
-int parse_config(cJSON *config)
+static inline bool executable_exists(const char *name)
+{
+	printf("TODO: Parse \"%s\"\n", name);
+	return false;
+}
+
+int parse_config_and_do_logic_and_stuff(cJSON *config)
 {
 	int mistakes = 0;
+	cJSON *item = NULL;
 
-	if (cJSON_IsObject(config))
+	cJSON_ArrayForEach(item, config)
 	{
-		cJSON *item = NULL;
-
-		cJSON_ArrayForEach(item, config)
+		if (cJSON_IsObject(item))
 		{
-			if (cJSON_IsObject(item))
+			cJSON *executables = cJSON_GetObjectItemCaseSensitive(
+			    item, "executables");
+			cJSON *alternatives = cJSON_GetObjectItemCaseSensitive(
+			    item, "alternatives");
+
+			if (cJSON_IsArray(executables))
 			{
-				cJSON *executables =
-				    cJSON_GetObjectItemCaseSensitive(
-				        item, "executables");
-				cJSON *alternatives =
-				    cJSON_GetObjectItemCaseSensitive(
-				        item, "alternatives");
+				cJSON *executable = NULL;
 
-				if (cJSON_IsArray(executables))
+				cJSON_ArrayForEach(executable, executables)
 				{
-					cJSON *executable = NULL;
-
-					cJSON_ArrayForEach(executable,
-					                   executables)
+					if (cJSON_IsString(executable))
 					{
-						if (cJSON_IsString(executable))
-						{
-							// TODO: check if
-							// executable exists
+						if (executable_exists(
+						        executable
+						            ->valuestring))
 							goto executable_found;
-						}
-						else
-						{
-							fprintf(
-							    stderr,
-							    "Invalid json!\n");
-							abort();
-						}
+					}
+					else
+					{
+						fprintf(stderr,
+						        "Invalid json!\n");
+						abort();
 					}
 				}
-
-				// executable was not found:
-				continue;
-
-			executable_found: // executable was found if we jump
-			                  // here
-
-				mistakes++; // increment 'mistakes'
-				printf(RED "OPSEC MISTAKE FOUND" RESET
-				           ": " YELLOW "%s" RESET "\n",
-				       item->string);
-
-				if (cJSON_IsString(alternatives))
-				{
-					printf(GREEN "Alternatives" RESET
-					             ": " MAGENTA "%s" RESET
-					             "\n",
-					       alternatives->valuestring);
-				}
-				else
-				{
-					fprintf(stderr, "Invalid json!\n");
-					abort();
-				}
 			}
+
+			// executable was not found:
+			continue;
+
+		executable_found: // executable was found if we jump
+		                  // here
+
+			mistakes++; // increment 'mistakes'
+			printf(RED "OPSEC MISTAKE FOUND" RESET ": " YELLOW
+			           "%s" RESET "\n",
+			       item->string);
+
+			if (cJSON_IsString(alternatives))
+			{
+				printf(GREEN "Alternatives" RESET ": " MAGENTA
+				             "%s" RESET "\n",
+				       alternatives->valuestring);
+			}
+			else
+			{
+				fprintf(stderr, "Invalid json!\n");
+				abort();
+			}
+
+			// add space between mistakes
+			putchar('\n');
 		}
-	}
-	else
-	{
-		fprintf(stderr, "Invalid json!\n");
-		abort();
 	}
 
 	return mistakes;
