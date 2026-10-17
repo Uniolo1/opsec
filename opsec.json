@@ -1,7 +1,10 @@
 {
 	"browsers/brave": {
 		"executables": [
-			"brave"
+			"brave",
+			"brave-browser",
+			"brave-browser-beta",
+			"brave-browser-nightly"
 		],
 		"alternatives": "LibreWolf"
 	},
@@ -10,7 +13,9 @@
 			"google-chrome",
 			"google-chrome-stable",
 			"google-chrome-unstable",
-			"google-chrome-canary"
+			"google-chrome-canary",
+			"chromium",
+			"chromium-browser"
 		],
 		"alternatives": "LibreWolf"
 	},
@@ -19,41 +24,50 @@
 			"microsoft-edge",
 			"microsoft-edge-stable",
 			"microsoft-edge-unstable",
-			"microsoft-edge-canary"
+			"microsoft-edge-canary",
+			"microsoft-edge-beta",
+			"microsoft-edge-dev"
 		],
 		"alternatives": "LibreWolf"
 	},
 	"browsers/vivaldi": {
 		"executables": [
 			"vivaldi-bin",
-			"vivaldi"
+			"vivaldi",
+			"vivaldi-stable",
+			"vivaldi-snapshot"
 		],
 		"alternatives": "LibreWolf"
 	},
 	"browsers/opera": {
 		"executables": [
 			"opera-bin",
-			"opera"
+			"opera",
+			"opera-stable"
 		],
 		"alternatives": "LibreWolf"
 	},
 	"editors/vscode": {
 		"executables": [
 			"code",
-			"vscode"
+			"vscode",
+			"code-insiders"
 		],
 		"alternatives": "VSCodium"
 	},
 	"social/discord": {
 		"executables": [
 			"vesktop",
-			"discord"
+			"discord",
+			"discord-canary",
+			"discord-ptb"
 		],
 		"alternatives": "XMPP, Fluxer"
 	},
 	"social/zoom": {
 		"executables": [
-			"zoom"
+			"zoom",
+			"zoom-client"
 		],
 		"alternatives": "Jitsi Meet"
 	},
