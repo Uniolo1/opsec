@@ -26,7 +26,9 @@
 #ifndef _WIN32
 
 #include "h/config.h"
+#include <cjson/cJSON.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -49,6 +51,51 @@ char *get_config_path(void)
 	// TODO: add more paths
 
 	return NULL; // no file found
+}
+
+cJSON *read_config(const char *config_path)
+{
+	FILE *fp = fopen(config_path, "r");
+	if (fp == NULL)
+	{
+		perror("fopen");
+		abort();
+	}
+
+	// detect file size
+	fseek(fp, 0, SEEK_END);
+	long size = ftell(fp);
+	rewind(fp);
+
+	if (size < 0)
+	{
+		fclose(fp);
+		abort();
+	}
+
+	// allocate buffer the same size as file contents
+	char *buffer = malloc((size_t)size + 1);
+	if (buffer == NULL)
+	{
+		fclose(fp);
+		abort();
+	}
+
+	size_t bytes_read = fread(buffer, 1, (size_t)size, fp);
+	fclose(fp);
+
+	buffer[bytes_read] = '\0';
+
+	cJSON *config = cJSON_Parse(buffer);
+	free(buffer); // free the buffer
+
+	if (config == NULL)
+	{
+		fprintf(stderr, "Config is invalid!\n");
+		abort();
+	}
+
+	return config;
 }
 
 #endif // ifndef _WIN32

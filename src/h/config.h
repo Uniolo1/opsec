@@ -26,6 +26,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <cjson/cJSON.h>
+
 char *get_config_path(void);
+cJSON *read_config(const char *config_path);
 
 #endif
