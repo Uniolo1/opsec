@@ -90,7 +90,8 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 
 			if (cJSON_IsString(alternatives))
 			{
-				printf(GREEN "Alternatives" RESET ": " MAGENTA
+				printf(GREEN "Alternative" GRAY "(" GREEN
+				             "s" GRAY ")" RESET ": " MAGENTA
 				             "%s" RESET "\n",
 				       alternatives->valuestring);
 			}

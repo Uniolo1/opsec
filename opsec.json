@@ -1,11 +1,24 @@
 {
-	"chrome": {
+	"browsers/brave": {
+		"executables": [
+			"brave"
+		],
+		"alternatives": "LibreWolf"
+	},
+	"browsers/chrome": {
 		"executables": [
 			"google-chrome",
 			"google-chrome-stable",
 			"chrome",
 			"Chrome"
 		],
-		"alternatives": "Librewolf"
+		"alternatives": "LibreWolf"
+	},
+	"editors/vscode": {
+		"executables": [
+			"code",
+			"vscode"
+		],
+		"alternatives": "VSCodium"
 	}
 }
