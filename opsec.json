@@ -9,8 +9,17 @@
 		"executables": [
 			"google-chrome",
 			"google-chrome-stable",
-			"chrome",
-			"Chrome"
+			"google-chrome-unstable",
+			"google-chrome-canary"
+		],
+		"alternatives": "LibreWolf"
+	},
+	"browsers/edge": {
+		"executables": [
+			"microsoft-edge",
+			"microsoft-edge-stable",
+			"microsoft-edge-unstable",
+			"microsoft-edge-canary"
 		],
 		"alternatives": "LibreWolf"
 	},
