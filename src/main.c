@@ -64,7 +64,8 @@ int main(void)
 		bad_distro = 1;
 	}
 
-	const char *config_path = get_config_path();
+	char *config_path = NULL;
+	bool config_path_needs_freeing = get_config_path(&config_path);
 	if (config_path == NULL)
 	{
 		fprintf(stderr, "Unable to find config!\n");
@@ -74,6 +75,8 @@ int main(void)
 	// NOTE: this function handles errors internally, and abort's on
 	// failure:
 	cJSON *config = read_config(config_path);
+	if (config_path_needs_freeing)
+		free(config_path);
 
 	if (!cJSON_IsObject(config))
 	{

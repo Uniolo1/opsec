@@ -27,8 +27,10 @@
 #define CONFIG_H
 
 #include <cjson/cJSON.h>
+#include <stdbool.h>
 
-char *get_config_path(void);
+bool get_config_path(
+    char **ret); // returns 'true' if variable needs to be free'd later
 cJSON *read_config(const char *config_path);
 
 #endif

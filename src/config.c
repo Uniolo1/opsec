@@ -27,8 +27,10 @@
 
 #include "h/config.h"
 #include <cjson/cJSON.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 static inline int file_exists(const char *path)
@@ -36,20 +38,80 @@ static inline int file_exists(const char *path)
 	return access(path, F_OK) == 0;
 }
 
-char *get_config_path(void)
+bool get_config_path(char **output)
 {
 	// use user-defined config path is set with the "OPSEC_CONFIG_FILE"
 	// environment variable
 	char *environment_opsec_config = getenv("OPSEC_CONFIG_FILE");
 	if (environment_opsec_config != NULL)
-		return environment_opsec_config;
+	{
+		*output = environment_opsec_config;
+		return false;
+	}
 
 	if (file_exists("./opsec.json"))
-		return "./opsec.json";
+	{
+		*output = "./opsec.json";
+		return false;
+	}
 
-	// TODO: add more paths
+	if (file_exists("./.opsec.json"))
+	{
+		*output = "./.opsec.json";
+		return false;
+	}
 
-	return NULL; // no file found
+	// $XDG_CONFIG_HOME/opsec.json
+	char *environment_config_home = getenv("XDG_CONFIG_HOME");
+	if (environment_config_home != NULL)
+	{
+		size_t ret_len =
+		    strlen(environment_config_home) + strlen("/opsec.json") + 1;
+		char *ret = malloc(ret_len);
+
+		strcpy(ret, environment_config_home);
+		strcpy(&ret[strlen(environment_config_home)], "/opsec.json");
+
+		if (!file_exists(ret))
+		{
+			free(ret);
+		}
+		else
+		{
+			*output = ret;
+			return true;
+		}
+	}
+
+	// $HOME/.config/opsec.json
+	char *environment_home = getenv("HOME");
+	if (environment_home != NULL)
+	{
+		size_t ret_len = strlen(environment_home) +
+		                 strlen("/.config/opsec.json") + 1;
+		char *ret = malloc(ret_len);
+
+		strcpy(ret, environment_home);
+		strcpy(&ret[strlen(environment_home)], "/.config/opsec.json");
+
+		if (!file_exists(ret))
+		{
+			free(ret);
+		}
+		else
+		{
+			*output = ret;
+			return true;
+		}
+	}
+
+	if (file_exists("/etc/opsec.json"))
+	{
+		*output = "/etc/opsec.json";
+		return false;
+	}
+
+	return false; // no file found
 }
 
 cJSON *read_config(const char *config_path)
