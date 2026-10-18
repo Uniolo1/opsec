@@ -120,7 +120,8 @@
 	},
 	"games/roblox": {
 		"executables": [
-			"mocktail"
+			"mocktail",
+			"sober"
 		],
 		"flatpak_executables": [
 			"org.vinegarhq.Sober",
