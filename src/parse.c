@@ -139,11 +139,6 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 			           "%s" RESET "\n",
 			       item->string);
 
-			if (consider_removing != NULL)
-				printf(GRAY "Consider removing: '%s'" RESET
-				            "\n",
-				       consider_removing);
-
 			//
 			if (cJSON_IsString(notes))
 			{
@@ -151,6 +146,11 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 				            "\n",
 				       notes->valuestring);
 			} // NOTE: no 'else' here as notes is optional
+
+			if (consider_removing != NULL)
+				printf(GRAY "Consider removing: '%s'" RESET
+				            "\n",
+				       consider_removing);
 
 			if (cJSON_IsString(alternatives))
 			{
