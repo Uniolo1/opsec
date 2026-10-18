@@ -69,13 +69,13 @@
 	"editors/vscode": {
 		"executables": [
 			"code",
-			"vscode",
-			"code-insiders"
+			"code-insiders",
+			"vscode"
 		],
 		"flatpak_executables": [
 			"com.visualstudio.code"
 		],
-		"alternatives": "VSCodium"
+		"alternatives": "VSCodium, Neovim, emacs"
 	},
 	"social/discord": {
 		"executables": [
@@ -108,5 +108,16 @@
 			"com.surfshark.Surfshark"
 		],
 		"alternatives": "Mullvad"
+	},
+	"games/roblox": {
+		"executables": [
+			"mocktail"
+		],
+		"flatpak_executables": [
+			"org.vinegarhq.Sober",
+			"org.vinegarhq.Vinegar",
+			"space.bigrat.mocktail"
+		],
+		"alternatives": "SuperTuxKart, Grass"
 	}
 }

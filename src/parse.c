@@ -43,6 +43,7 @@ static inline bool executable_exists(const char *name)
 
 static inline bool flatpak_exists(const char *name)
 {
+	// same applies as above
 	char cmd[512];
 	snprintf(cmd, sizeof(cmd), "flatpak info \"%s\" > /dev/null 2>&1",
 	         name);
