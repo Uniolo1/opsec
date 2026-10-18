@@ -38,6 +38,9 @@ int main(void)
 	puts(GRAY "This program will now exit..." RESET);
 	abort();
 }
+#elif !defined(__unix__) && !defined(_POSIX_VERSION) && !defined(ASSUME_POSIX)
+#error                                                                         \
+    "This program is intended for a POSIX-complaint system, define 'ASSUME_POSIX' to bypass this check!"
 #else
 
 #include "h/colors.h"
