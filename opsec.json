@@ -100,6 +100,15 @@
 		],
 		"alternatives": "Jitsi Meet"
 	},
+	"music/spotify": {
+		"executables": [
+			"spotify"
+		],
+		"flatpak_executables": [
+			"com.spotify.Client"
+		],
+		"alternatives": "rmpc, yt-dlp"
+	},
 	"vpn/surfshark": {
 		"executables": [
 			"surfshark"
@@ -118,6 +127,7 @@
 			"org.vinegarhq.Vinegar",
 			"space.bigrat.mocktail"
 		],
+		"notes": "Requires ID or face scan for chatting",
 		"alternatives": "SuperTuxKart, Grass"
 	}
 }

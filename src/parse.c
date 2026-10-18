@@ -67,6 +67,9 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 			cJSON *flatpak_executables =
 			    cJSON_GetObjectItemCaseSensitive(
 			        item, "flatpak_executables");
+
+			cJSON *notes =
+			    cJSON_GetObjectItemCaseSensitive(item, "notes");
 			cJSON *alternatives = cJSON_GetObjectItemCaseSensitive(
 			    item, "alternatives");
 
@@ -128,11 +131,7 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 						abort();
 					}
 				}
-			}
-			else
-			{
-				// Do nothing here
-			}
+			} // NOTE: no 'else' here
 
 			// executable was not found:
 			continue;
@@ -149,6 +148,14 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 				printf(GRAY "Consider removing: '%s'" RESET
 				            "\n",
 				       consider_removing);
+
+			//
+			if (cJSON_IsString(notes))
+			{
+				printf(CYAN "NOTES" RESET ": " BLUE "%s" RESET
+				            "\n",
+				       notes->valuestring);
+			}
 
 			if (cJSON_IsString(alternatives))
 			{
