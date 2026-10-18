@@ -58,6 +58,8 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 
 	cJSON_ArrayForEach(item, config)
 	{
+		char *consider_removing = NULL;
+
 		if (cJSON_IsObject(item))
 		{
 			cJSON *executables = cJSON_GetObjectItemCaseSensitive(
@@ -79,7 +81,12 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 						if (executable_exists(
 						        executable
 						            ->valuestring))
+						{
+							consider_removing =
+							    executable
+							        ->valuestring;
 							goto executable_found;
+						}
 					}
 					else
 					{
@@ -107,7 +114,12 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 						if (flatpak_exists(
 						        executable
 						            ->valuestring))
+						{
+							consider_removing =
+							    executable
+							        ->valuestring;
 							goto executable_found;
+						}
 					}
 					else
 					{
@@ -132,6 +144,11 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 			printf(RED "OPSEC MISTAKE FOUND" RESET ": " YELLOW
 			           "%s" RESET "\n",
 			       item->string);
+
+			if (consider_removing != NULL)
+				printf(GRAY "Consider removing: '%s'" RESET
+				            "\n",
+				       consider_removing);
 
 			if (cJSON_IsString(alternatives))
 			{
