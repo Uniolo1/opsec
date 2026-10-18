@@ -139,7 +139,6 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 			           "%s" RESET "\n",
 			       item->string);
 
-			//
 			if (cJSON_IsString(notes))
 			{
 				printf(CYAN "NOTES" RESET ": " BLUE "%s" RESET
