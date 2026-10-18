@@ -98,12 +98,7 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 						abort();
 					}
 				}
-			}
-			else
-			{
-				fprintf(stderr, "Invalid json!\n");
-				abort();
-			}
+			} // NOTE: no 'else' here as executables is optional
 
 			if (cJSON_IsArray(flatpak_executables))
 			{
@@ -131,7 +126,7 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 						abort();
 					}
 				}
-			} // NOTE: no 'else' here
+			} // NOTE: no 'else' here as flatpak is optional
 
 			// executable was not found:
 			continue;
@@ -155,7 +150,7 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 				printf(CYAN "NOTES" RESET ": " BLUE "%s" RESET
 				            "\n",
 				       notes->valuestring);
-			}
+			} // NOTE: no 'else' here as notes is optional
 
 			if (cJSON_IsString(alternatives))
 			{
@@ -163,12 +158,7 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 				             "s" GRAY ")" RESET ": " MAGENTA
 				             "%s" RESET "\n",
 				       alternatives->valuestring);
-			}
-			else
-			{
-				fprintf(stderr, "Invalid json!\n");
-				abort();
-			}
+			} // NOTE: no 'else' here as alternatives is optional
 
 			// add space between mistakes
 			putchar('\n');
