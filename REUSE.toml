@@ -4,7 +4,7 @@
 version = 1
 
 [[annotations]]
-path = ["opsec.json"]
+path = ["opsec.json", "UNLICENSE"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "Unlicense"

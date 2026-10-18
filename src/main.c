@@ -53,6 +53,7 @@ int main(void)
 	int bad_distro = 0; // I did the soyjack and went "bad apple reference"
 	                    // after writing this - Uniolo1
 
+	// omarchy is bad opsec for many, many, many reasons
 	if (access("/usr/share/omarchy/version", F_OK) == 0)
 	{
 		puts(RED "CRITICAL OPSEC MISTAKE FOUND" RESET
