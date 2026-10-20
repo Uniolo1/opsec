@@ -85,6 +85,13 @@
 		],
 		"alternatives": "podman"
 	},
+	"utilities/neofetch": {
+		"executables": [
+			"neofetch"
+		],
+		"notes": "unmaintained",
+		"alternatives": "fastfetch, macchina, hyetch"
+	},
 	"system/snap": {
 		"executables": [
 			"snap",
