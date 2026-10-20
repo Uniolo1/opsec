@@ -27,6 +27,7 @@
 
 #include "h/config.h"
 #include <cjson/cJSON.h>
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,15 +50,9 @@ bool get_config_path(char **output)
 		return false;
 	}
 
-	if (file_exists("./opsec.json"))
+	if (file_exists("./opsec.jsonc"))
 	{
-		*output = "./opsec.json";
-		return false;
-	}
-
-	if (file_exists("./.opsec.json"))
-	{
-		*output = "./.opsec.json";
+		*output = "./opsec.jsonc";
 		return false;
 	}
 
@@ -65,12 +60,12 @@ bool get_config_path(char **output)
 	char *environment_config_home = getenv("XDG_CONFIG_HOME");
 	if (environment_config_home != NULL)
 	{
-		size_t ret_len =
-		    strlen(environment_config_home) + strlen("/opsec.json") + 1;
+		size_t ret_len = strlen(environment_config_home) +
+		                 strlen("/opsec.jsonc") + 1;
 		char *ret = malloc(ret_len);
 
 		strcpy(ret, environment_config_home);
-		strcpy(&ret[strlen(environment_config_home)], "/opsec.json");
+		strcpy(&ret[strlen(environment_config_home)], "/opsec.jsonc");
 
 		if (!file_exists(ret))
 		{
@@ -88,11 +83,11 @@ bool get_config_path(char **output)
 	if (environment_home != NULL)
 	{
 		size_t ret_len = strlen(environment_home) +
-		                 strlen("/.config/opsec.json") + 1;
+		                 strlen("/.config/opsec.jsonc") + 1;
 		char *ret = malloc(ret_len);
 
 		strcpy(ret, environment_home);
-		strcpy(&ret[strlen(environment_home)], "/.config/opsec.json");
+		strcpy(&ret[strlen(environment_home)], "/.config/opsec.jsonc");
 
 		if (!file_exists(ret))
 		{
@@ -105,9 +100,9 @@ bool get_config_path(char **output)
 		}
 	}
 
-	if (file_exists("/etc/opsec.json"))
+	if (file_exists("/etc/opsec.jsonc"))
 	{
-		*output = "/etc/opsec.json";
+		*output = "/etc/opsec.jsonc";
 		return false;
 	}
 
@@ -146,6 +141,40 @@ cJSON *read_config(const char *config_path)
 	fclose(fp);
 
 	buffer[bytes_read] = '\0';
+
+	// Logic to remove comments
+	// NOTE: AI used here a little
+	char *src = buffer;
+	char *dst = buffer;
+
+	while (*src != '\0')
+	{
+		char *line = src;
+
+		// find the end of the current line
+		char *newline = strchr(src, '\n');
+		size_t line_len =
+		    newline ? (size_t)(newline - src) : strlen(src);
+
+		// skip leading whitespace
+		char *p = line;
+		while (p < line + line_len && isspace((unsigned char)*p))
+			p++;
+
+		// ignore the line if it starts with '//'
+		if (!(p + 1 < line + line_len && p[0] == '/' && p[1] == '/'))
+		{
+			memmove(dst, line, line_len);
+			dst += line_len;
+
+			if (newline)
+				*dst++ = '\n';
+		}
+
+		src = newline ? newline + 1 : src + line_len;
+	}
+
+	*dst = '\0';
 
 	cJSON *config = cJSON_Parse(buffer);
 	free(buffer); // free the buffer

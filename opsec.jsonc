@@ -1,3 +1,5 @@
+// NOTE: comments like this are supposed if they are on there own line!
+// '.jsonc' is not that accurate, only comments on there own line that are 1 line work!
 {
 	"browsers/brave": {
 		"executables": [
@@ -90,6 +92,17 @@
 		],
 		"notes": "remove with extreme caution if on Ubuntu",
 		"alternatives": "Flatpak"
+	},
+	"system/sudo": {
+		"executables": [
+			// check for absolute path due to potential for wrappers
+			"/sbin/sudo",
+			"/bin/sudo",
+			"/usr/bin/sudo",
+			"/usr/sbin/sudo"
+		],
+		"notes": "do not remove unless you really know what you are doing!",
+		"alternatives": "opendoas"
 	},
 	"social/discord": {
 		"executables": [
