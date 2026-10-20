@@ -27,7 +27,9 @@
 #define PARSE_H
 
 #include <cjson/cJSON.h>
+#include <stdint.h>
 
 int parse_config_and_do_logic_and_stuff(cJSON *config);
+extern uintmax_t possible_mistakes;
 
 #endif

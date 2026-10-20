@@ -47,6 +47,7 @@ int main(void)
 #include "h/config.h"
 #include "h/parse.h"
 #include <cjson/cJSON.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -92,6 +93,15 @@ int main(void)
 	int mistakes = parse_config_and_do_logic_and_stuff(config) + bad_distro;
 
 	cJSON_Delete(config);
+
+	if (mistakes != 0)
+		// print some lines to separate the final opsec level
+		printf("--------------------------\n");
+
+	// print the opsec level
+	printf(GRAY "OPSEC LEVEL: " CYAN "%" PRIuMAX " out of %" PRIuMAX GRAY
+	            "!" RESET,
+	       possible_mistakes - mistakes, possible_mistakes);
 
 	if (mistakes == 0)
 		puts(GREEN "No OPSEC mistakes detected!" RESET);

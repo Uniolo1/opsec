@@ -29,8 +29,11 @@
 #include "h/colors.h"
 #include <cjson/cJSON.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+uintmax_t possible_mistakes = 0;
 
 static inline bool executable_exists(const char *name)
 {
@@ -58,6 +61,7 @@ int parse_config_and_do_logic_and_stuff(cJSON *config)
 
 	cJSON_ArrayForEach(item, config)
 	{
+		possible_mistakes++;
 		char *consider_removing = NULL;
 
 		if (cJSON_IsObject(item))
