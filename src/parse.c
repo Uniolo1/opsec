@@ -54,7 +54,7 @@ static inline bool flatpak_exists(const char *name)
 	return system(cmd) == 0;
 }
 
-int parse_config_and_do_logic_and_stuff(cJSON *config)
+unsigned int parse_config_and_do_logic_and_stuff(cJSON *config)
 {
 	int mistakes = 0;
 	cJSON *item = NULL;

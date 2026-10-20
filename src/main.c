@@ -23,6 +23,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <stdint.h>
 #ifdef _WIN32
 // if the user is a Windows user, warn them to switch!
 
@@ -48,20 +49,73 @@ int main(void)
 #include "h/parse.h"
 #include <cjson/cJSON.h>
 #include <inttypes.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-static inline void print_opsec_level(int mistakes,
+static inline void print_level_name(double opsec_mistakes_percent)
+{
+	// handle super-special cases
+	if (opsec_mistakes_percent == 0)
+	{
+		puts(GREEN "TRUE GOD OF OPSEC, MASTER OF LARPERS!" RESET);
+		puts(GRAY "(" GREEN "No OPSEC mistakes detected!" GRAY
+		          ")" RESET);
+		return;
+	}
+	else if (opsec_mistakes_percent == 100)
+	{
+		puts(RED
+		     "HOW DID YOU EVEN GET A NUMBER THIS HIGH LIKE WHAT THE "
+		     "FUCK" RESET);
+		return;
+	}
+
+	switch ((uint_fast8_t)opsec_mistakes_percent / 10)
+	{
+	case 0:
+		puts(GREEN "OPSEC GOD!" RESET);
+		break;
+	case 1:
+		puts(CYAN "OPSEC PRO!" RESET);
+		break;
+	case 2:
+		puts(CYAN "OPSEC AMATEUR!" RESET);
+		break;
+	case 3:
+		puts(MAGENTA "OPSEC BEGINNER!" RESET);
+		break;
+	// anything 60% and above is considered bad - considering many of the
+	// applications that are mistakes are stuff like webbrowsers where you
+	// would only reasonably have 1 or 2
+	default:
+		puts(RED "OPSEC NOOB" RESET);
+		break;
+	}
+}
+
+static inline void print_opsec_level(unsigned int mistakes,
                                      unsigned int maximum_mistakes)
 {
 	if (mistakes != 0)
 		// print some lines to separate the final opsec level
 		printf("--------------------------\n");
 
-	// print the opsec level
-	printf(GRAY "OPSEC LEVEL: " CYAN "%d out of %d" GRAY "!" RESET,
-	       maximum_mistakes - mistakes, maximum_mistakes);
+	double opsec_mistakes_percent;
+	if (maximum_mistakes == 0)
+	{
+		// to prevent a divide-by-zero error
+		opsec_mistakes_percent = 100;
+	}
+	else
+	{
+		opsec_mistakes_percent =
+		    ((double)mistakes / (double)maximum_mistakes) * 100.0;
+	}
+
+	printf(GRAY "OPSEC LEVEL: " RESET);
+	print_level_name(opsec_mistakes_percent);
 }
 
 int main(void)
@@ -80,6 +134,9 @@ int main(void)
 		putchar('\n'); // add space for other mistakes
 		bad_distro++;
 	}
+	possible_mistakes++; // increment it here to avoid forgetting to
+	                     // increment it elsewhere when adding a new one of
+	                     // these in the future
 
 	char *config_path = NULL;
 	bool config_path_needs_freeing = get_config_path(&config_path);
@@ -102,14 +159,12 @@ int main(void)
 	}
 
 	// this function also abort's on failure:
-	int mistakes = parse_config_and_do_logic_and_stuff(config) + bad_distro;
+	unsigned int mistakes =
+	    parse_config_and_do_logic_and_stuff(config) + bad_distro;
 
 	cJSON_Delete(config);
 
-	print_opsec_level(mistakes, possible_mistakes);
-	if (mistakes == 0)
-		puts(GREEN "No OPSEC mistakes detected!" RESET);
-
+	print_opsec_level((unsigned int)mistakes, possible_mistakes);
 	return mistakes;
 }
 
