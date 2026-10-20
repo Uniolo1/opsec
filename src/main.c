@@ -52,6 +52,17 @@ int main(void)
 #include <stdlib.h>
 #include <unistd.h>
 
+static inline void print_mistakes(int mistakes, unsigned int maximum_mistakes)
+{
+	if (mistakes != 0)
+		// print some lines to separate the final opsec level
+		printf("--------------------------\n");
+
+	// print the opsec level
+	printf(GRAY "OPSEC LEVEL: " CYAN "%d out of %d" GRAY "!" RESET,
+	       maximum_mistakes - mistakes, maximum_mistakes);
+}
+
 int main(void)
 {
 	int bad_distro = 0; // I did the soyjack and went "bad apple reference"
@@ -94,15 +105,7 @@ int main(void)
 
 	cJSON_Delete(config);
 
-	if (mistakes != 0)
-		// print some lines to separate the final opsec level
-		printf("--------------------------\n");
-
-	// print the opsec level
-	printf(GRAY "OPSEC LEVEL: " CYAN "%" PRIuMAX " out of %" PRIuMAX GRAY
-	            "!" RESET,
-	       possible_mistakes - mistakes, possible_mistakes);
-
+	print_mistakes(mistakes, possible_mistakes);
 	if (mistakes == 0)
 		puts(GREEN "No OPSEC mistakes detected!" RESET);
 
