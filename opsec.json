@@ -77,6 +77,20 @@
 		],
 		"alternatives": "VSCodium, Neovim, emacs"
 	},
+	"utilities/docker": {
+		"executables": [
+			"docker"
+		],
+		"alternatives": "podman"
+	},
+	"system/snap": {
+		"executables": [
+			"snap",
+			"snapd"
+		],
+		"notes": "remove with extreme caution if on Ubuntu",
+		"alternatives": "Flatpak"
+	},
 	"social/discord": {
 		"executables": [
 			"vesktop",
@@ -118,6 +132,16 @@
 		],
 		"alternatives": "Mullvad"
 	},
+	"games/official-minecraft-launcher": {
+		"executables": [
+			"minecraft-launcher.sh",
+			"minecraft-launcher"
+		],
+		"flatpak_executables": [
+			"com.mojang.Minecraft"
+		],
+		"alternatives": "Prism Launcher, MultiMC"
+	},
 	"games/roblox": {
 		"executables": [
 			"mocktail",
@@ -128,7 +152,6 @@
 			"org.vinegarhq.Vinegar",
 			"space.bigrat.mocktail"
 		],
-		"notes": "Requires ID or face scan for chatting",
 		"alternatives": "SuperTuxKart, Grass"
 	}
 }
