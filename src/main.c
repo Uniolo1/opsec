@@ -52,7 +52,8 @@ int main(void)
 #include <stdlib.h>
 #include <unistd.h>
 
-static inline void print_mistakes(int mistakes, unsigned int maximum_mistakes)
+static inline void print_opsec_level(int mistakes,
+                                     unsigned int maximum_mistakes)
 {
 	if (mistakes != 0)
 		// print some lines to separate the final opsec level
@@ -105,7 +106,7 @@ int main(void)
 
 	cJSON_Delete(config);
 
-	print_mistakes(mistakes, possible_mistakes);
+	print_opsec_level(mistakes, possible_mistakes);
 	if (mistakes == 0)
 		puts(GREEN "No OPSEC mistakes detected!" RESET);
 
