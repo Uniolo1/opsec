@@ -56,22 +56,6 @@ int main(void)
 
 static inline void print_level_name(double opsec_mistakes_percent)
 {
-	// handle super-special cases
-	if (opsec_mistakes_percent == 0)
-	{
-		puts(GREEN "TRUE GOD OF OPSEC, MASTER OF LARPERS!" RESET);
-		puts(GRAY "(" GREEN "No OPSEC mistakes detected!" GRAY
-		          ")" RESET);
-		return;
-	}
-	else if (opsec_mistakes_percent == 100)
-	{
-		puts(RED
-		     "HOW DID YOU EVEN GET A NUMBER THIS HIGH LIKE WHAT THE "
-		     "FUCK" RESET);
-		return;
-	}
-
 	switch ((uint_fast8_t)opsec_mistakes_percent / 10)
 	{
 	case 0:
@@ -115,7 +99,26 @@ static inline void print_opsec_level(unsigned int mistakes,
 	}
 
 	printf(GRAY "OPSEC LEVEL: " RESET);
-	print_level_name(opsec_mistakes_percent);
+
+	// handle super-special cases here
+	if (mistakes == 0)
+	{
+		puts(GREEN "TRUE GOD OF OPSEC, MASTER OF LARPERS!" RESET);
+		puts(GRAY "(" GREEN "No OPSEC mistakes detected!" GRAY
+		          ")" RESET);
+		return;
+	}
+	else if (mistakes == maximum_mistakes)
+	{
+		puts(RED
+		     "HOW DID YOU EVEN GET A NUMBER THIS HIGH LIKE WHAT THE "
+		     "FUCK" RESET);
+		return;
+	}
+	else
+	{
+		print_level_name(opsec_mistakes_percent);
+	}
 }
 
 int main(void)
