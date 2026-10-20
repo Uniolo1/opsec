@@ -86,18 +86,6 @@ static inline void print_opsec_level(unsigned int mistakes,
 		// print some lines to separate the final opsec level
 		printf("--------------------------\n");
 
-	double opsec_mistakes_percent;
-	if (maximum_mistakes == 0)
-	{
-		// to prevent a divide-by-zero error
-		opsec_mistakes_percent = 100;
-	}
-	else
-	{
-		opsec_mistakes_percent =
-		    ((double)mistakes / (double)maximum_mistakes) * 100.0;
-	}
-
 	printf(GRAY "OPSEC LEVEL: " RESET);
 
 	// handle super-special cases here
@@ -114,11 +102,21 @@ static inline void print_opsec_level(unsigned int mistakes,
 		     "HOW DID YOU EVEN GET A NUMBER THIS HIGH LIKE WHAT THE "
 		     "FUCK" RESET);
 		return;
+	} // else:
+
+	double opsec_mistakes_percent;
+	if (maximum_mistakes == 0)
+	{
+		// to prevent a divide-by-zero error
+		opsec_mistakes_percent = 100;
 	}
 	else
 	{
-		print_level_name(opsec_mistakes_percent);
+		opsec_mistakes_percent =
+		    ((double)mistakes / (double)maximum_mistakes) * 100.0;
 	}
+
+	print_level_name(opsec_mistakes_percent);
 }
 
 int main(void)
