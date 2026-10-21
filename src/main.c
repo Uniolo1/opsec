@@ -166,7 +166,7 @@ int main(void)
 	cJSON_Delete(config);
 
 	print_opsec_level((unsigned int)mistakes, possible_mistakes);
-	return mistakes;
+	return (int)mistakes;
 }
 
 #endif // if defined(_WIN32)
